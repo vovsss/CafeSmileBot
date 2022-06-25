@@ -45,7 +45,7 @@ class OrderZone:
         )
 
     def check_for_color(self, color: Color) -> bool:
-        screen = ImageGrab.grab(bbox=(self.start.x, self.start.y, self.end.x, self.end.y))
+        screen = ImageGrab.grab()
         screen = screen.convert("RGB")
         for x in range(self.start.x, self.end.x):
             for y in range(self.start.y, self.end.y):
@@ -104,6 +104,8 @@ def check_order_zones():
                 food.throw_food(zone.get_middle())
 
 
+input("Нажмите ENTER, чтобы начать")
+
 while True:
     check_order_zones()
-    time.sleep(5)
+    time.sleep(5000)
