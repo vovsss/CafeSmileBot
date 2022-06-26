@@ -1,6 +1,6 @@
 import config
 
-import directKeys
+import mouse_controller
 import time
 
 from PIL import ImageGrab, Image
@@ -23,6 +23,7 @@ class Vector2:
     def __init__(self, x, y):
         self.x = round(x * (config.screen_resolution_x/1280))
         self.y = round(y * (config.screen_resolution_y/768))
+
     def __str__(self):
         return f"{self.x} {self.y}"
 
@@ -34,9 +35,9 @@ class Plate:
         self.coords = coords
 
     def throw(self, coords):
-        directKeys.click(self.coords.x, self.coords.y)
+        mouse_controller.click(self.coords.x, self.coords.y)
         time.sleep(0.3)
-        directKeys.click(coords.x, coords.y)
+        mouse_controller.click(coords.x, coords.y)
 
 
 class Food:
@@ -89,12 +90,12 @@ class Button:
         r, g, b = screen.getpixel((self.coords.x, self.coords.y))
 
         color = Color(r, g, b)
-        print(f"Попытка нажать:\nКоординаты: {self.coords}\nЦвет кнопки: {self.unique_color}\nФактический цвет: {color}")
 
         if color == self.unique_color:
             print("Click")
+            time.sleep(0.2)
             directKeys.click(self.coords.x, self.coords.y)
-
+            time.sleep(0.2)
 
 plate = Plate(Vector2(417, 553))
 
@@ -128,17 +129,23 @@ pink_scoop = Food(Vector2(1008, 611), Color(250, 205, 217))
 
 # BUTTONS
 
-go_to_game_button = Button(Vector2(938, 225), Color(200, 192, 167))
+yes_button = Button(Vector2(623, 458), Color(254, 254, 254))
 
-start_game_button = Button(Vector2(656, 581), Color(198, 185, 150))
+go_to_game_button = Button(Vector2(971, 231), Color(175, 168, 146))
 
-yes_button = Button(Vector2(592, 466), Color(65, 173, 212))
+start_game_button = Button(Vector2(657, 574), Color(203, 186, 152))
 
-first_level_button = Button(Vector2(701, 331), Color(132, 93, 24))
+first_level_button = Button(Vector2(690, 330), Color(101, 56, 7))
 
-new_level_button = Button(Vector2(718, 495), Color(145, 199, 51))
+new_level_button = Button(Vector2(718, 495), Color(146, 199, 30))
 
-Buttons = [go_to_game_button, yes_button, start_game_button, first_level_button, new_level_button]
+level_up_button = Button(Vector2(702, 601), Color(252, 253, 251))
+
+level_up_button2 = Button(Vector2(1144, 167), Color(121, 90, 134))
+
+
+Buttons = [level_up_button, level_up_button2, go_to_game_button,
+           yes_button, start_game_button, first_level_button, new_level_button]
 
 AllFood = [
     dish, bread, chips, tomato, cheese, salad, sausage, lettuce,
@@ -171,6 +178,7 @@ input("Нажмите ENTER, чтобы начать")
 
 while True:
     screen = ImageGrab.grab().convert("RGB")
-    try_to_click_buttons(screen)
+    if config.click_buttons:
+        try_to_click_buttons(screen)
     check_order_zones(screen)
     time.sleep(config.time_between_iterations)
