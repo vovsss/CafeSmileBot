@@ -1,4 +1,6 @@
+from buttons import buttons_dict
 import config
+
 
 import mouse_controller
 import time
@@ -20,9 +22,12 @@ class Color:
 
 
 class Vector2:
-    def __init__(self, x, y):
-        self.x = round(x * (config.screen_resolution_x/1280))
-        self.y = round(y * (config.screen_resolution_y/768))
+    def __init__(self, x, y, need_convert: bool = True):
+        if need_convert:
+            x *= config.screen_resolution_x / 1280
+            y *= config.screen_resolution_y / 768
+        self.x = round(x)
+        self.y = round(y)
 
     def __str__(self):
         return f"{self.x} {self.y}"
@@ -36,7 +41,7 @@ class Plate:
 
     def throw(self, coords):
         mouse_controller.click(self.coords.x, self.coords.y)
-        time.sleep(0.3)
+        #  time.sleep(config.time_between_clicks)
         mouse_controller.click(coords.x, coords.y)
 
 
@@ -51,9 +56,9 @@ class Food:
 
     def throw(self, coords):
 
-        directKeys.click(self.coords.x, self.coords.y)
+        mouse_controller.click(self.coords.x, self.coords.y)
         time.sleep(config.time_between_clicks)
-        directKeys.click(coords.x, coords.y)
+        mouse_controller.click(coords.x, coords.y)
 
 
 class OrderZone:
@@ -94,8 +99,9 @@ class Button:
         if color == self.unique_color:
             print("Click")
             time.sleep(0.2)
-            directKeys.click(self.coords.x, self.coords.y)
+            mouse_controller.click(self.coords.x, self.coords.y)
             time.sleep(0.2)
+
 
 plate = Plate(Vector2(417, 553))
 
@@ -108,7 +114,7 @@ tomato = Food(Vector2(705, 557), Color(201, 8, 8))
 cheese = Food(Vector2(617, 557), Color(253, 215, 100))
 salad = Food(Vector2(649, 484), Color(169, 182, 214))
 sausage = Food(Vector2(530, 580), Color(244, 199, 189))
-lettuce = Food(Vector2(792, 576), Color(117, 208, 72))
+lettuce = Food(Vector2(792, 576), Color(125, 114, 34))
 ketchup = Food(Vector2(1145, 489), Color(223, 164, 94))
 mustard = Food(Vector2(1085, 494), Color(213, 151, 88))
 
@@ -129,23 +135,20 @@ pink_scoop = Food(Vector2(1008, 611), Color(250, 205, 217))
 
 # BUTTONS
 
-yes_button = Button(Vector2(623, 458), Color(254, 254, 254))
+text_screen_resolution = f"{config.screen_resolution_x}x{config.screen_resolution_y}"
 
-go_to_game_button = Button(Vector2(971, 231), Color(175, 168, 146))
+Buttons = buttons_dict.get(text_screen_resolution)
 
-start_game_button = Button(Vector2(657, 574), Color(203, 186, 152))
-
-first_level_button = Button(Vector2(690, 330), Color(101, 56, 7))
-
-new_level_button = Button(Vector2(718, 495), Color(146, 199, 30))
-
-level_up_button = Button(Vector2(702, 601), Color(252, 253, 251))
-
-level_up_button2 = Button(Vector2(1144, 167), Color(121, 90, 134))
+if Buttons is None:
+    config.click_buttons = False
 
 
-Buttons = [level_up_button, level_up_button2, go_to_game_button,
-           yes_button, start_game_button, first_level_button, new_level_button]
+# level_up_button = Button(Vector2(702, 601, False), Color(252, 253, 251))
+
+# level_up_button2 = Button(Vector2(1144, 167, False), Color(121, 90, 134))
+
+
+
 
 AllFood = [
     dish, bread, chips, tomato, cheese, salad, sausage, lettuce,
