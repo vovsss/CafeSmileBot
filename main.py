@@ -64,13 +64,26 @@ class OrderZone:
     start: Vector2
     end: Vector2
     customer: Vector2
+    check_for_order_coords: Vector2
 
-    def __init__(self, start: Vector2, end: Vector2, customer: Vector2):
+    check_for_order_color = Color(234, 233, 239)
+
+    def __init__(self, start: Vector2, end: Vector2, customer: Vector2, check_for_order_coords: Vector2):
         self.start = start
         self.end = end
         self.customer = customer
+        self.check_for_order_coords = check_for_order_coords
+
+    def is_order_made(self, screen: Image):
+        r, g, b = screen.getpixel((self.check_for_order_coords.x, self.check_for_order_coords.y))
+        color = Color(r, g, b)
+        return color == self.check_for_order_color
 
     def check_for_color(self, screen: Image, color: Color) -> bool:
+
+        if not self.is_order_made(screen):
+            return False
+
         for x in range(int(self.start.x), int(self.end.x)):
             for y in range(int(self.start.y), int(self.end.y)):
                 r, g, b = screen.getpixel((x, y))
@@ -94,9 +107,10 @@ class Button:
         r, g, b = screen.getpixel((self.coords.x, self.coords.y))
 
         color = Color(r, g, b)
+        print(f"{self.coords}\n{self.unique_color} - {color}")
+
         if color == self.unique_color:
             mouse_controller.click(self.coords.x, self.coords.y)
-
 
 
 plate = Plate(Vector2(417, 553))
@@ -130,15 +144,15 @@ brown_scoop = Food(Vector2(976, 557), Color(197, 152, 114))
 pink_scoop = Food(Vector2(1008, 611), Color(250, 205, 217))
 
 # buttons
-
+# CAFE_BUTTON -> YES_BUTTON -> PLAY_BUTTON -> FIRST_LEVEL_BUTTON -> NEW_LEVEL_BUTTON
 buttons_dict = {
     "1920x1080":
     [
         Button(Vector2(1464, 309, False), Color(175, 168, 146)),
         Button(Vector2(886, 633, False), Color(36, 198, 237)),
         Button(Vector2(994, 832, False), Color(203, 186, 152)),
-        Button(Vector2(1057, 500, False), Color(101, 56, 7)),
-        Button(Vector2(1049, 674, False), Color(165, 226, 34))
+        Button(Vector2(1120, 458, False), Color(101, 56, 7)),
+        Button(Vector2(1050, 675, False), Color(165, 227, 30))
     ],
     "1280x768":
     [
@@ -164,8 +178,6 @@ if buttons is None:
 # level_up_button2 = Button(Vector2(1144, 167, False), Color(121, 90, 134))
 
 
-
-
 AllFood = [
     dish, bread, chips, tomato, cheese, salad, sausage, lettuce,
     cup, water, orange_juice, cherry_juice,
@@ -174,9 +186,9 @@ AllFood = [
 ]
 
 OrderZones = [
-    OrderZone(Vector2(280, 90), Vector2(550, 220), Vector2(423, 427)),
-    OrderZone(Vector2(570, 90), Vector2(840, 220), Vector2(685, 402)),
-    OrderZone(Vector2(860, 90), Vector2(1130, 220), Vector2(927, 415))
+    OrderZone(Vector2(280, 90), Vector2(550, 220), Vector2(423, 427), Vector2(525, 202)),
+    OrderZone(Vector2(570, 90), Vector2(840, 220), Vector2(685, 402), Vector2(827, 206)),
+    OrderZone(Vector2(860, 90), Vector2(1130, 220), Vector2(927, 415), Vector2(1124, 203))
 ]
 
 
