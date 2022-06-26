@@ -45,7 +45,7 @@ class Food:
 
     def throw(self, coords):
         directKeys.click(self.coords.x, self.coords.y)
-        time.sleep(0.3)
+        time.sleep(config.time_between_clicks)
         directKeys.click(coords.x, coords.y)
 
 
@@ -141,4 +141,4 @@ input("Нажмите ENTER, чтобы начать")
 
 while True:
     check_order_zones()
-    time.sleep(0.25)
+    time.sleep(config.time_between_iterations)
