@@ -1,4 +1,3 @@
-from buttons import buttons_dict
 import config
 
 
@@ -95,12 +94,9 @@ class Button:
         r, g, b = screen.getpixel((self.coords.x, self.coords.y))
 
         color = Color(r, g, b)
-
         if color == self.unique_color:
-            print("Click")
-            time.sleep(0.2)
             mouse_controller.click(self.coords.x, self.coords.y)
-            time.sleep(0.2)
+
 
 
 plate = Plate(Vector2(417, 553))
@@ -133,13 +129,33 @@ white_scoop = Food(Vector2(916, 584), Color(255, 236, 192))
 brown_scoop = Food(Vector2(976, 557), Color(197, 152, 114))
 pink_scoop = Food(Vector2(1008, 611), Color(250, 205, 217))
 
-# BUTTONS
+# buttons
+
+buttons_dict = {
+    "1920x1080":
+    [
+        Button(Vector2(1464, 309, False), Color(175, 168, 146)),
+        Button(Vector2(886, 633, False), Color(36, 198, 237)),
+        Button(Vector2(994, 832, False), Color(203, 186, 152)),
+        Button(Vector2(1057, 500, False), Color(101, 56, 7)),
+        Button(Vector2(1049, 674, False), Color(165, 226, 34))
+    ],
+    "1280x768":
+    [
+
+        Button(Vector2(971, 231, False), Color(175, 168, 146)),
+        Button(Vector2(623, 458, False), Color(254, 254, 254)),
+        Button(Vector2(657, 574, False), Color(203, 186, 152)),
+        Button(Vector2(690, 330, False), Color(101, 56, 7)),
+        Button(Vector2(718, 495, False), Color(146, 199, 30))
+    ]
+}
 
 text_screen_resolution = f"{config.screen_resolution_x}x{config.screen_resolution_y}"
 
-Buttons = buttons_dict.get(text_screen_resolution)
+buttons = buttons_dict.get(text_screen_resolution)
 
-if Buttons is None:
+if buttons is None:
     config.click_buttons = False
 
 
@@ -165,7 +181,7 @@ OrderZones = [
 
 
 def try_to_click_buttons(screen):
-    for button in Buttons:
+    for button in buttons:
         button.try_click(screen)
 
 
