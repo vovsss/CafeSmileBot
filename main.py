@@ -23,6 +23,8 @@ class Vector2:
     def __init__(self, x, y):
         self.x = round(x * (config.screen_resolution_x/1280))
         self.y = round(y * (config.screen_resolution_y/768))
+    def __str__(self):
+        return f"{self.x} {self.y}"
 
 
 class Plate:
@@ -87,9 +89,10 @@ class Button:
         r, g, b = screen.getpixel((self.coords.x, self.coords.y))
 
         color = Color(r, g, b)
-        print(color)
+        print(f"Попытка нажать:\nКоординаты: {self.coords}\nЦвет кнопки: {self.unique_color}\nФактический цвет: {color}")
+
         if color == self.unique_color:
-            print("Clcik!")
+            print("Click")
             directKeys.click(self.coords.x, self.coords.y)
 
 
@@ -125,7 +128,7 @@ pink_scoop = Food(Vector2(1008, 611), Color(250, 205, 217))
 
 # BUTTONS
 
-go_to_game_button = Button(Vector2(972, 232), Color(172, 167, 145))
+go_to_game_button = Button(Vector2(938, 225), Color(200, 192, 167))
 
 start_game_button = Button(Vector2(656, 581), Color(198, 185, 150))
 
