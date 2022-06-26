@@ -85,7 +85,11 @@ class Button:
 
     def try_click(self, screen: Image):
         r, g, b = screen.getpixel((self.coords.x, self.coords.y))
-        if Color(r, g, b) == self.unique_color:
+
+        color = Color(r, g, b)
+        print(color)
+        if color == self.unique_color:
+            print("Clcik!")
             directKeys.click(self.coords.x, self.coords.y)
 
 
@@ -121,17 +125,17 @@ pink_scoop = Food(Vector2(1008, 611), Color(250, 205, 217))
 
 # BUTTONS
 
-go_to_game_button = Button(Vector2(989, 318), Color(113, 197, 47))
+go_to_game_button = Button(Vector2(972, 232), Color(172, 167, 145))
 
-start_game_button = Button(Vector2(633, 562), Color(199, 184, 155))
+start_game_button = Button(Vector2(656, 581), Color(198, 185, 150))
 
-yes_button = Button(Vector2(594, 447), Color(76, 196, 233))
+yes_button = Button(Vector2(592, 466), Color(65, 173, 212))
 
 first_level_button = Button(Vector2(701, 331), Color(132, 93, 24))
 
 new_level_button = Button(Vector2(718, 495), Color(145, 199, 51))
 
-Buttons = [go_to_game_button, start_game_button, yes_button, first_level_button, new_level_button]
+Buttons = [go_to_game_button, yes_button, start_game_button, first_level_button, new_level_button]
 
 AllFood = [
     dish, bread, chips, tomato, cheese, salad, sausage, lettuce,
