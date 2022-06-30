@@ -66,7 +66,7 @@ class OrderZone:
     customer: Vector2
     check_for_order_coords: Vector2
 
-    check_for_order_color = Color(234, 233, 239)
+    check_for_order_color = Color(255, 255, 255)
 
     def __init__(self, start: Vector2, end: Vector2, customer: Vector2, check_for_order_coords: Vector2):
         self.start = start
@@ -77,6 +77,7 @@ class OrderZone:
     def is_order_made(self, screen: Image):
         r, g, b = screen.getpixel((self.check_for_order_coords.x, self.check_for_order_coords.y))
         color = Color(r, g, b)
+        print(color, self.check_for_order_color)
         return color == self.check_for_order_color
 
     def check_for_color(self, screen: Image, color: Color) -> bool:
@@ -107,7 +108,7 @@ class Button:
         r, g, b = screen.getpixel((self.coords.x, self.coords.y))
 
         color = Color(r, g, b)
-        print(f"{self.coords}\n{self.unique_color} - {color}")
+
 
         if color == self.unique_color:
             mouse_controller.click(self.coords.x, self.coords.y)
@@ -186,9 +187,9 @@ AllFood = [
 ]
 
 OrderZones = [
-    OrderZone(Vector2(280, 90), Vector2(550, 220), Vector2(423, 427), Vector2(525, 202)),
-    OrderZone(Vector2(570, 90), Vector2(840, 220), Vector2(685, 402), Vector2(827, 206)),
-    OrderZone(Vector2(860, 90), Vector2(1130, 220), Vector2(927, 415), Vector2(1124, 203))
+    OrderZone(Vector2(280, 90), Vector2(550, 220), Vector2(423, 427), Vector2(436, 222)),
+    OrderZone(Vector2(570, 90), Vector2(840, 220), Vector2(685, 402), Vector2(732, 220)),
+    OrderZone(Vector2(860, 90), Vector2(1130, 220), Vector2(927, 415), Vector2(1028, 222))
 ]
 
 
