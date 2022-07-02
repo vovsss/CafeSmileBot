@@ -32,7 +32,7 @@ class Vector2:
         return f"{self.x} {self.y}"
 
 
-class Plate:
+class Throwable:
     coords: Vector2
 
     def __init__(self, coords: Vector2):
@@ -44,20 +44,12 @@ class Plate:
         mouse_controller.click(coords.x, coords.y)
 
 
-class Food:
-
-    coords: Vector2
+class Food(Throwable):
     unique_color: Color
 
     def __init__(self, coords: Vector2, unique_color: Color):
-        self.coords = coords
+        super().__init__(coords)
         self.unique_color = unique_color
-
-    def throw(self, coords):
-
-        mouse_controller.click(self.coords.x, self.coords.y)
-        time.sleep(config.time_between_clicks)
-        mouse_controller.click(coords.x, coords.y)
 
 
 class OrderZone:
@@ -96,7 +88,7 @@ class OrderZone:
         return False
 
 
-class Button:
+class UIElement:
     coords: Vector2
     unique_color: Color
 
@@ -104,17 +96,21 @@ class Button:
         self.coords = coords
         self.unique_color = unique_color
 
-    def try_click(self, screen: Image):
+    def is_on_screen(self, screen: Image) -> bool:
         r, g, b = screen.getpixel((self.coords.x, self.coords.y))
+        return Color(r, g, b) == self.unique_color
 
-        color = Color(r, g, b)
 
+class Button(UIElement):
 
-        if color == self.unique_color:
+    def try_click(self, screen: Image):
+        if self.is_on_screen(screen) == self.unique_color:
             mouse_controller.click(self.coords.x, self.coords.y)
 
 
-plate = Plate(Vector2(417, 553))
+end_window = UIElement(Vector2(618, 390), Color(125, 208, 238))
+
+plate = Throwable(Vector2(417, 553))
 
 # FOOD
 dish = Food(Vector2(1117, 650), Color(165, 181, 222))
@@ -193,7 +189,11 @@ OrderZones = [
 ]
 
 
-def try_to_click_buttons(screen):
+def is_game_finished(screen: Image) -> bool:
+    return end_window.is_on_screen(screen)
+
+
+def try_to_click_buttons(screen: Image):
     for button in buttons:
         button.try_click(screen)
 
@@ -201,7 +201,9 @@ def try_to_click_buttons(screen):
 def check_order_zones(screen: Image):
     for zone in OrderZones:
         for food in AllFood:
-            if zone.check_for_color(screen, food.unique_color):
+            if is_game_finished(screen):
+                return
+            elif zone.check_for_color(screen, food.unique_color):
                 plate.throw(zone.customer)
                 food.throw(zone.customer)
 

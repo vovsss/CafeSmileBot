@@ -1,5 +1,5 @@
 import ctypes
-from ctypes import Structure, c_long, byref
+from ctypes import Structure, c_long
 
 
 PUL = ctypes.POINTER(ctypes.c_ulong)
@@ -22,8 +22,4 @@ def click(x, y):
     ctypes.windll.user32.SetCursorPos(x, y)
     ctypes.windll.user32.mouse_event(2, 0, 0, 0, 0)  # left down
     ctypes.windll.user32.mouse_event(4, 0, 0, 0, 0)  # left up
-def queryMousePosition():
-    pt = POINT()
-    ctypes.windll.user32.GetCursorPos(byref(pt))
-    return pt
-    # return { "x": pt.x, "y": pt.y}/
+
