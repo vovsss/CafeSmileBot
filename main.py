@@ -104,7 +104,7 @@ class UIElement:
 class Button(UIElement):
 
     def try_click(self, screen: Image):
-        if self.is_on_screen(screen) == self.unique_color:
+        if self.is_on_screen(screen):
             mouse_controller.click(self.coords.x, self.coords.y)
 
 
