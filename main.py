@@ -40,7 +40,7 @@ class Throwable:
 
     def throw(self, coords):
         mouse_controller.click(self.coords.x, self.coords.y)
-        #  time.sleep(config.time_between_clicks)
+        time.sleep(config.time_between_clicks)
         mouse_controller.click(coords.x, coords.y)
 
 
